@@ -13,8 +13,7 @@ import streamlit as st
 from PIL import Image
 
 # Step 1: Extract the zip file
-def extract_dataset(url='https://clck.ru/3FkU9z', extract_path="/content/Dataset"):
-
+def extract_dataset(url='https://s973sas.storage.yandex.net/rdisk/b2926db95587a5f8e5ad631885738c2c86d9f6a4fa4b3fce962ebce963541f63/6787977f/eCN9__yBRD1oY5oeNol0OOD7Viv-_HZijIkm_HePN2Vlad_0mhoTOhfPJjXuMDio-dY76yuzNS7bUKM-ft6-pw==?uid=0&filename=agricultural_crops.zip&disposition=attachment&hash=mUof68cnsspd8sgMjXfBBEmY%2BC2OHBZJM8lOyEkiWNv%2BEifF3qn8kLTuDDXeQFCFq/J6bpmRyOJonT3VoXnDag%3D%3D&limit=0&content_type=application%2Fzip&owner_uid=370463641&fsize=82830492&hid=e1de3cd113340c353503460704e455d7&media_type=compressed&tknv=v2&ts=62bbcb7659dc0&s=b8f32800e682f1d9f6d90d1151dbe71194f3463679bbb72ac2715d9b79cc0618&pb=U2FsdGVkX18ABh8uIUCfAf4tv39FS0Uq9mCqJqhT9uHs_tApgKOrZIFiyArfxKBF6ThNb7zpm1J__NNgKMJN2cOEkg5JzrscjJCc1Ey_R6I', extract_path="./Dataset"):
     zip_file_path = 'agricultural_crops.zip'
     
     print("Downloading dataset...")
@@ -55,7 +54,7 @@ def create_train_val_split(src_dir, dest_dir, val_ratio=0.2):
                     shutil.copy(os.path.join(class_dir, file_name), os.path.join(dest_dir, 'train', class_name))
 
 # Step 3: Load and preprocess the data
-def load_data(data_dir='/content/Dataset_split'):
+def load_data(data_dir='./Dataset_split'):
     data_transforms = {
         'train': transforms.Compose([
             transforms.RandomResizedCrop(224),
@@ -174,8 +173,8 @@ def main():
     
     # Extract and prepare dataset
     extract_dataset()
-    src_dir = os.path.join('/content/Dataset', 'Agricultural-crops')
-    dest_dir = '/content/Dataset_split'
+    src_dir = os.path.join('./Dataset', 'Agricultural-crops')
+    dest_dir = './Dataset_split'
     create_train_val_split(src_dir, dest_dir)
     dataloaders, dataset_sizes, class_names = load_data(data_dir=dest_dir)
 
@@ -190,7 +189,7 @@ def main():
 
     uploaded_file = st.file_uploader("Загрузите изображение...", type=["png", "jpg", "jpeg", "webp"])
     if uploaded_file is not None:
-        image_path = os.path.join('/tmp', uploaded_file.name)
+        image_path = os.path.join('./tmp', uploaded_file.name)  # Заменим на ./tmp
         with open(image_path, "wb") as f:
             f.write(uploaded_file.getbuffer())
 
