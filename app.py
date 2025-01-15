@@ -1,6 +1,6 @@
-%%writefile app.py
 import os
 import zipfile
+import urllib.request
 import shutil
 import random
 import torch
@@ -13,10 +13,19 @@ import streamlit as st
 from PIL import Image
 
 # Step 1: Extract the zip file
-def extract_dataset(download_path='agricultural_crops.zip', extract_path="/content/Dataset"):
+def extract_dataset(url='https://clck.ru/3FkU9z', extract_path="/content/Dataset"):
+
+    zip_file_path = 'agricultural_crops.zip'
+    
+    print("Downloading dataset...")
+    urllib.request.urlretrieve(url, zip_file_path)
+    
+    print("Dataset downloaded successfully. Extracting...")
+
+    # Извлечение zip-файла
     os.makedirs(extract_path, exist_ok=True)
 
-    with zipfile.ZipFile(download_path, 'r') as zip_ref:
+    with zipfile.ZipFile(zip_file_path, 'r') as zip_ref:
         zip_ref.extractall(extract_path)
 
     print("Dataset extracted successfully.")
